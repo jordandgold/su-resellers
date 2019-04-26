@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button } from "terra-react";
 import logo from "./logo.svg";
 import "./App.css";
+import ResellerList from "./components/ResellerList/ResellerList";
+import newCountryArray from "./utilities/countryCodes";
 
 class App extends Component {
   constructor() {
@@ -10,7 +11,7 @@ class App extends Component {
     this.state = {
       data: undefined,
       status: "normal",
-      country: "US"
+      country: undefined
     };
   }
 
@@ -36,7 +37,7 @@ class App extends Component {
         });
 
         this.setState({
-          data: usData,
+          data: data,
           status: "success"
         });
       }
@@ -53,18 +54,52 @@ class App extends Component {
       status: "fetching"
     });
   };
+
+  changeCountry = country => {
+    this.setState({
+      country
+    });
+  };
+
+  filterCountries = () => {
+    return this.state.data.filter(country => {
+      return (
+        country.field_su_reseller_address[0].country_code ===
+        this.state.country.code
+      );
+    });
+  };
+
   render() {
+    console.log(newCountryArray);
     return (
       <div className="App">
+        <select className="select-country">
+          <option>select a country</option>
+          {newCountryArray.map((country, index) => {
+            return (
+              <option onClick={() => this.changeCountry(country)} key={index}>
+                {country.name}
+              </option>
+            );
+          })}
+        </select>
         {this.state.status === "fetching" && <h3>fetching</h3>}
         {this.state.status === "success" && <h3>Success!</h3>}
         {this.state.status === "error" && <h3>error message!</h3>}
-        {this.state.data && <div />}
-        <Button
-          onClick={() => {}}
-          name="button"
-          className="ter-button--primary--1"
-        />
+        {this.state.data && !this.state.country && (
+          <ResellerList data={this.state.data} />
+        )}
+        {this.state.data &&
+          this.state.country &&
+          this.filterCountries().length > 0 && (
+            <ResellerList data={this.filterCountries()} />
+          )}
+        {this.state.data &&
+          this.state.country &&
+          !this.filterCountries().length && (
+            <div>There are no reselllers in {this.state.country.name}</div>
+          )}
       </div>
     );
   }
