@@ -9,7 +9,7 @@ class ResellerList extends Component {
     return (
       <div>
         {this.props.data.map(reseller => {
-          return <div>{reseller.field_su_reseller_name[0].value}</div>;
+          return <div key={reseller.nid}>{reseller.title}</div>;
         })}
       </div>
     );

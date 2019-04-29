@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import ResellerList from "./components/ResellerList/ResellerList";
 import newCountryArray from "./utilities/countryCodes";
@@ -29,13 +28,6 @@ class App extends Component {
       const data = await response.json();
 
       if (data) {
-        const usData = data.filter(point => {
-          return (
-            point.field_su_reseller_address[0].country_code ===
-            this.state.country
-          );
-        });
-
         this.setState({
           data: data,
           status: "success"
@@ -64,7 +56,7 @@ class App extends Component {
   filterCountries = () => {
     return this.state.data.filter(country => {
       return (
-        country.field_su_reseller_address[0].country_code ===
+        country.field_su_reseller_address_country_code ===
         this.state.country.code
       );
     });
