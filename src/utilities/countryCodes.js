@@ -249,7 +249,6 @@ const isoCountries = {
 const countryKeys = Object.keys(isoCountries);
 
 const newCountryArray = countryKeys.map(country => {
-  console.log(country, isoCountries[country]);
   return { code: country, name: isoCountries[country] };
 });
 

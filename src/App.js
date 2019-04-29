@@ -34,7 +34,7 @@ class App extends Component {
         });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       this.setState({
         status: "error"
       });
@@ -63,7 +63,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(newCountryArray);
     return (
       <div className="App">
         <select className="select-country">
